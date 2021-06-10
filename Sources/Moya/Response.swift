@@ -84,6 +84,7 @@ public extension Response {
         return try filter(statusCodes: 200...399)
     }
 
+    #if !os(Linux)
     /// Maps data received from the signal into an Image.
     func mapImage() throws -> Image {
         guard let image = Image(data: data) else {
@@ -91,6 +92,7 @@ public extension Response {
         }
         return image
     }
+    #endif
 
     /// Maps data received from the signal into a JSON object.
     ///
@@ -114,7 +116,7 @@ public extension Response {
         if let keyPath = keyPath {
             // Key path was provided, try to parse string at key path
             guard let jsonDictionary = try mapJSON() as? NSDictionary,
-                let string = jsonDictionary.value(forKeyPath: keyPath) as? String else {
+                let string = jsonDictionary.value(forKey: keyPath) as? String else {
                     throw MoyaError.stringMapping(self)
             }
             return string
@@ -144,7 +146,7 @@ public extension Response {
         }
         let jsonData: Data
         keyPathCheck: if let keyPath = keyPath {
-            guard let jsonObject = (try mapJSON(failsOnEmptyData: failsOnEmptyData) as? NSDictionary)?.value(forKeyPath: keyPath) else {
+            guard let jsonObject = (try mapJSON(failsOnEmptyData: failsOnEmptyData) as? NSDictionary)?.value(forKey: keyPath) else {
                 if failsOnEmptyData {
                     throw MoyaError.jsonMapping(self)
                 } else {

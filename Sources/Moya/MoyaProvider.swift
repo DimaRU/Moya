@@ -1,4 +1,10 @@
 import Foundation
+#if canImport(FoundationNetworking)
+@_exported import FoundationNetworking
+#endif
+#if canImport(CDispatch)
+import CDispatch
+#endif
 
 /// Closure to be executed when a request has completed.
 public typealias Completion = (_ result: Result<Moya.Response, MoyaError>) -> Void
