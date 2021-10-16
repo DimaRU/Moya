@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "Moya", targets: ["Moya"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .branch("master")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.4.4")),
         .package(url: "https://github.com/shibapm/Rocket", .upToNextMajor(from: "1.0.0")) // dev
     ],
     targets: [
